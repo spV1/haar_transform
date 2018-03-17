@@ -6,6 +6,8 @@ from math import sqrt
 
 
 def haar_transform(data, length_line, length_column):
+    #Преобразование Хаара для черно - белого изображение
+
     img = data.copy()
 
     secondary_list = []
@@ -32,7 +34,6 @@ def haar_transform(data, length_line, length_column):
 
     return img_
 
-
 def sorting_matrix(data, length_line, length_column):
     img = data.copy()
 
@@ -53,16 +54,23 @@ def sorting_matrix(data, length_line, length_column):
     return img
 
 
-image = Image.open('133.png').convert('L')
+image = Image.open('133.png').convert('RGB')
 image = array(image) / 255.0  # Диапазон яркостей — [0, 1]
-imshow(image, cmap=cm.gray)  # Отобразим на экране
+#imshow(image, cmap=cm.gray)  # Отобразим на экране
 # show()
 
-w, h = image.shape
+# Получаем размер для черно-белого изображения
+#w, h= image.shape
 
-data_1 = haar_transform(image, w, h)
+# Получаем размер для RGB изображения
+size = image.shape
 
-data_1 = sorting_matrix(data_1, w, h)
+data_1 = haar_transform(image, size[0], size[1])
+data_1 = sorting_matrix(data_1, size[0], size[1])
 
-imshow(data_1, cmap=cm.gray)  # Отобразим на экране
+# Повторное преобразование
+data_2 = haar_transform(data_1, size[0], size[1])
+data_2 = sorting_matrix(data_2, size[0], size[1])
+
+imshow(data_2, cmap='jet')  # Отобразим на экране
 show()
